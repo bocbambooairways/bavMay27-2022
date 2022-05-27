@@ -1,0 +1,118 @@
+﻿@using BOC.Areas.B_DCS.Models
+@using DevExtreme.AspNet.Mvc
+@{
+    ViewData["Title"] = "M_Index";
+    Layout = "~/Views/Shared/_Mobile.cshtml";
+}
+@using (Html.BeginForm("M_DCS_SSR_Passenger_Get", "Flight", FormMethod.Post)) {
+    <div style="width:90%;
+                margin:auto;
+                background-color:white;padding-bottom:20px">
+    <div style="display:flex;width:100%;margin-top:100px">
+    <div style="flex:40%;background-color:white;text-align:center;padding-top:6px">Flight Info </div>
+    <div style="flex:60%;background-color:white;">
+   <input type="text" name="isdn" class="form-control" value="@ViewBag.FlightID" readonly/>
+   </div>
+    </div>
+     <div style="display:flex;width:100%;margin-top:20px">
+    <div style="flex:40%;background-color:white;text-align:center;padding-top:6px">Passenger Name</div>
+    <div style="flex:60%;background-color:white">
+    <input type="text" name="pnr" class="form-control" placeholder ="Passenger Name" value="" readonly/>
+</div>
+    </div>
+     <div style="display:flex;width:100%;margin-top:20px">
+    <div style="flex:40%;background-color:white;text-align:center;padding-top:6px;color:darkgreen"><b>Select 01 SSR</b></div>
+    <div style="flex:60%;background-color:white">
+@*    <input type="text" name="pnr" class="form-control" placeholder ="Passenger Name" value="" readonly/>
+*@</div>
+    </div>
+
+    
+
+      <div style="display:flex;width:100%;margin-top:20px">
+    <div style="flex:50%;background-color:green;text-align:center;color:white;padding-top:6px;padding-bottom:6px;text-align:center">
+        Code
+     </div>
+    <div style="flex:50%;background-color:green;color:white;padding-top:6px;padding-bottom:6px;text-align:center">
+       Name
+      </div>
+    </div>
+     @if (ViewBag.List_Code_SSR_Get != null)
+                    {
+                        @foreach (var item in (IEnumerable<DCS_Code_SSR_Get>)ViewBag.List_Code_SSR_Get)
+                        {
+                            @if (((string)ViewBag.SSRID) == item.SSRID)
+                            {
+    <div style="display:flex;width:100%;margin-top:20px; border-bottom: 1px solid lightgray">
+    <div style="flex:50%;background-color:lightgreen;text-align:center;color:black;padding-top:6px;padding-bottom:6px;text-align:center" >
+        @item.SSR
+     </div>
+    <div style="flex:50%;background-color:lightgreen;color:black;padding-top:6px;padding-bottom:6px;text-align:center">
+       @item.Description
+      </div>
+    </div>
+                            }
+                            else
+                            {
+                               <div style="display:flex;width:100%;margin-top:20px;border-bottom: 1px solid lightgray">
+    <div style="flex:50%;background-color:whitesmoke;text-align:center;color:black;padding-top:6px;padding-bottom:6px;text-align:center">
+        @item.SSR
+     </div>
+    <div style="flex:50%;background-color:whitesmoke;color:black;padding-top:6px;padding-bottom:6px;text-align:center">
+        @item.Description
+      </div>
+    </div>
+                            }
+
+                        }
+                    }
+
+     <div style="display:flex;width:100%;margin-top:30px">
+    <div style="flex:40%;background-color:white;text-align:center;padding-top:6px">Count</div>
+    <div style="flex:60%;background-color:white">
+    <input type="text" name="pnr" class="form-control" value="@ViewBag.Count" readonly/>
+</div>
+    </div>
+
+     <div style="display:flex;width:100%;margin-top:20px">
+    <div style="flex:40%;background-color:white;text-align:center;padding-top:6px">Remark</div>
+    <div style="flex:60%;background-color:white">
+    <input type="text" name="pnr" class="form-control"  value="@ViewBag.Remark " readonly/>
+    </div>
+     </div>
+
+
+
+     <div style="display:flex;width:100%;margin-top:20px">
+    <div style="flex:40%;background-color:white;text-align:center;padding-top:6px">Status</div>
+    <div style="flex:60%;background-color:white">
+    @(Html.DevExtreme().SelectBox()
+                    .DataSource(Model.Items)
+                    .Placeholder("Select Active / Delete")
+                    .ShowClearButton(true)
+                )
+</div>
+    </div>
+
+ @*<div style="display:flex;width:100%;margin-top:20px">
+    <div style="flex:40%;background-color:white;text-align:center;padding-top:6px">
+<div style="display:flex;width:100%">
+    <div style="flex:50%;background-color:white;text-align:center">Bag pcs</div>
+    <div style="flex:50%;background-color:white;text-align:center">Weight</div>
+    </div>
+    </div>
+   <div style="flex:2%"></div>
+      <input type="text" name="" class="form-control" placeholder ="Weight" style="flex:29%" readonly/>
+    </div>*@
+      <div style="display:flex;width:100%;margin-top:20px">
+    <div style="flex:40%;background-color:white;text-align:center;padding:5px">
+    <button style="width:80%;background-color:darkgreen;margin:auto" class="btn btn-danger">OK</button>
+    </div>
+    <div style="flex:60%;background-color:white;text-align:center;padding:5px;padding-bottom:20px">
+    <a href="/B-DCS/Flight/M_Comment" style="width:60%;background-color:darkgreen;margin:auto" class="btn btn-danger">Cancel</a>
+   </div>
+    </div>
+    </div>
+  
+
+}

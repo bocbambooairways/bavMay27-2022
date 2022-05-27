@@ -1,0 +1,163 @@
+﻿@using BOC.Areas.B_DCS.Models
+@using DevExtreme.AspNet.Mvc
+@{
+    ViewData["Title"] = "M_Index";
+    Layout = "~/Views/Shared/_Mobile.cshtml";
+}
+  <style type="text/css">
+       td { padding: 5px; cursor: pointer;}
+       .selected {
+                  background-color: lightblue;
+                  color: #FFF;
+                  }
+                  
+          </style>
+@using (Html.BeginForm("M_DCS_SSR_Passenger_Get", "Flight", FormMethod.Post)) {
+    <div style="width:90%;
+                margin:auto;
+                background-color:white;padding-bottom:20px">
+    <div style="display:flex;width:100%;margin-top:100px">
+    <div style="flex:40%;background-color:white;text-align:center;padding-top:6px">Flight Info </div>
+    <div style="flex:60%;background-color:white;">
+   <input type="text" name="FlightInfo" class="form-control" value="@ViewBag.FlightInfo " readonly/>
+   </div>
+    </div>
+     <div style="display:flex;width:100%;margin-top:20px">
+    <div style="flex:40%;background-color:white;text-align:center;padding-top:6px">Passenger Name</div>
+    <div style="flex:60%;background-color:white">
+    <input type="text" name="Pax_name" class="form-control" placeholder ="Passenger Name" value="@ViewBag.Pax_name" readonly/>
+</div>
+    </div>
+     <div style="display:flex;width:100%;margin-top:20px">
+    <div style="flex:40%;background-color:white;text-align:center;padding-top:6px;color:darkgreen"><b>Select 01 SSR</b></div>
+    <div style="flex:60%;background-color:white">
+@*    <input type="text" name="pnr" class="form-control" placeholder ="Passenger Name" value="" readonly/>
+*@</div>
+    </div>
+
+     <div style="margin:auto;
+                background-color:white">
+ 
+  <table class="table table-condensed" style="margin-top:20px" id="table">
+    <thead>
+      <tr style="background-color:green;text-align:center;color:white">
+      @*  <th>SSRID</th>*@
+        <th style="display:None">ID</th>
+        <th>Code</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+                    @if (ViewBag.List_Code_SSR_Get != null)
+                    {
+                        @foreach (var item in (IEnumerable<DCS_Code_SSR_Get>)ViewBag.List_Code_SSR_Get)
+                        {
+                            @if (((string)ViewBag.SSRID) == item.SSRID)
+                            {
+                                <tr style="text-align:center" id="ssRID" class="selected">
+                                    <td style="display:None">
+
+                                       @item.SSRID
+
+                                    </td>
+                                    <td>
+
+                                       @item.SSR
+                                       ls 
+                                    </td>
+                                    <td>
+
+                                       @item.Description
+
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr style="text-align:center" value=""  >
+                                     <td style="display:None">
+                                       @item.SSRID
+                                      </td>
+                                    <td >
+
+                                       @item.SSR
+
+                                    </td>
+                                    <td>
+
+                                       @item.Description
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+    </tbody>
+  </table>
+    </div>
+     <div style="display:flex;width:100%;margin-top:20px">
+    <div style="flex:40%;background-color:white;text-align:center;padding-top:6px">Count</div>
+    <div style="flex:60%;background-color:white">
+    <input type="text" name="pnr" class="form-control" value="@ViewBag.Count" readonly/>
+</div>
+    </div>
+
+     <div style="display:flex;width:100%;margin-top:20px">
+    <div style="flex:40%;background-color:white;text-align:center;padding-top:6px">Remark</div>
+    <div style="flex:60%;background-color:white">
+    <input type="text" name="pnr" class="form-control"  value="@ViewBag.Remark " readonly/>
+</div>
+    </div>
+
+     <div style="display:flex;width:100%;margin-top:20px">
+    <div style="flex:40%;background-color:white;text-align:center;padding-top:6px">Status</div>
+    <div style="flex:60%;background-color:white">
+    @(Html.DevExtreme().SelectBox()
+                    .DataSource(Model.Items)
+                    .Placeholder("Select Active / Delete")
+                    .ShowClearButton(true)
+                )
+</div>
+    </div>
+      <div style="display:flex;width:100%;margin-top:20px">
+    <div style="flex:40%;background-color:white;text-align:center;padding:5px">
+    <button type="submit" style="width:80%;background-color:darkgreen;margin:auto" class="btn btn-danger">OK</button>
+    </div>
+    <div style="flex:60%;background-color:white;text-align:center;padding:5px;padding-bottom:20px">
+    <a href="/B-DCS/Flight/M_Comment" style="width:60%;background-color:darkgreen;margin:auto" class="btn btn-danger">Cancel</a>
+   </div>
+    </div>
+    </div>
+    <input type="hidden" name="ssrID" id="ssrID">
+   <script>
+        var table = document.getElementById('table');
+        var selected = table.getElementsByClassName('selected');
+        table.onclick = highlight;
+    
+    function highlight(e) {
+     var _ssrID = document.getElementById("ssRID");
+    if(_ssrID)
+    {
+    if( document.getElementById('ssRID').style.backgroundColor == "lightblue" ) 
+    {
+    document.getElementById('ssRID').style.color = "black"  ;
+    document.getElementById('ssRID').style.backgroundColor = "white"  ;
+    }
+    }
+
+    if (selected[0]) 
+      selected[0].className = '';
+      e.target.parentNode.className = 'selected';
+
+ var element = document.querySelectorAll('.selected');
+      document.getElementById("ssrID").value = element[0].children[0].firstChild.data;
+    }
+    function fnselect(){
+        var element = document.querySelectorAll('.selected');
+        if(element[0]!== undefined){ 
+         alert(element[0].children[0].firstChild.data);
+        }
+    }
+  </script>
+
+}
